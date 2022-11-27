@@ -1,4 +1,11 @@
-import { XIcon } from "@heroicons/react/solid";
+import {
+  PlusIcon,
+  ThumbUpIcon,
+  VolumeOffIcon,
+  VolumeUpIcon,
+  XIcon,
+} from "@heroicons/react/solid";
+import { FaPlay } from "react-icons/fa";
 import MuiModal from "@mui/material/Modal";
 import { useRecoilState } from "recoil";
 import ReactPlayer from "react-player/lazy";
@@ -11,7 +18,7 @@ function Modal() {
   const [movie, setMovie] = useRecoilState(movieState);
   const [trailer, setTrailer] = useState("");
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   // console.log(movie);
 
   useEffect(() => {
@@ -48,6 +55,7 @@ function Modal() {
     <MuiModal
       open={showModal}
       onClose={handleClose}
+      className="fixed !top-7 left-0 right-0 mx-auto w-full max-w-5xl overflow-hidden overflow-y-scroll rounded-md scrollbar-hide"
     >
       <>
         <button
@@ -56,7 +64,7 @@ function Modal() {
         >
           <XIcon className="h-6 w-6" />
         </button>
-        <div>
+        <div className="relative pt-[56.25%]">
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${trailer}`}
             width="100%"
@@ -65,6 +73,54 @@ function Modal() {
             playing
             muted={muted}
           />
+          <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
+            <div className="flex space-x-2">
+              <button className="flex items-center gap-x-2 rounded bg-white px-5 py-1 text-black font-bold text-xl transition hover:bg-[#e6e6e6]">
+                <FaPlay className="h-7 w-7 text-black" />
+                Play
+              </button>
+              <button className="modalButton">
+                <PlusIcon className="h-7 w-7" />
+              </button>
+              <button className="modalButton">
+                <ThumbUpIcon className="h-7 w-7" />
+              </button>
+            </div>
+            <button
+              onClick={() => setMuted(!muted)}
+              className="modalButton"
+            >
+              {muted ? (
+                <VolumeOffIcon className="h-6 w-6" />
+              ) : (
+                <VolumeUpIcon className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div className="flex items-center space-x-2 text-sm">
+              <p className="font-semi-bold text-green-400">
+                {movie!.vote_average * 10}% Match
+              </p>
+              <p className="font-light">
+                {movie?.release_date || movie?.first_air_date}
+              </p>
+              <div className="flex h-4 items-center justify-center rounded border border-white/40 px-1.5 text-xs">
+                HD
+              </div>
+            </div>
+            <div>
+              <p className="w-5/6">{movie?.overview}</p>
+              <div>
+                <div>
+                  <span className="text-[gray]">Generes:</span>
+                  {genres.map((genre) => genre.name).join(", ")}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </>
     </MuiModal>
