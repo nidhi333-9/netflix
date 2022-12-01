@@ -98,8 +98,8 @@ function Modal() {
             </button>
           </div>
         </div>
-        <div>
-          <div>
+        <div className="flex space-x-16 rounded-b-md bg-[#181818] px-10  py-8">
+          <div className="space-y-6 text-lg">
             <div className="flex items-center space-x-2 text-sm">
               <p className="font-semi-bold text-green-400">
                 {movie!.vote_average * 10}% Match
